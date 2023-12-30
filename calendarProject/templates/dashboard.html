@@ -21,7 +21,17 @@
         
         <!-- kontener z kalendarzem -->
         <div>
-            
+            {% load static %}
+            <script type="text/javascript" src="{% static 'schedule/js/vendor/jquery.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'schedule/js/vendor/jquery.ui.core.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'schedule/js/vendor/jquery.ui.datepicker.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'schedule/js/vendor/fullcalendar.min.js' %}"></script>
+            <link rel="stylesheet" type="text/css" href="{% static 'schedule/css/fullcalendar.css' %}" />
+            <script type="text/javascript" src="{% static 'schedule/js/base.js' %}"></script>
+
+            <div id="calendar">
+                <!-- Tutaj pojawi się kalendarz -->
+            </div>
         </div>
     </div>
 </body>

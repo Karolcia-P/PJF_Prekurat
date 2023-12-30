@@ -2,16 +2,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import render
 from schedule.models import Calendar
+from django.contrib.auth.decorators import login_required
+
 class LoginForm(AuthenticationForm):
     pass
 
+@login_required(login_url='dashboard')
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request, request.POST)
+        form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -21,6 +21,7 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 
+@login_required(login_url='dashboard')
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
