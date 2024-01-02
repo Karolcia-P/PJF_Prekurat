@@ -8,10 +8,10 @@
     <link rel="stylesheet" type="text/css" href="../static/style/dashboard.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="body">
         <div class="container-fluid">
             <div class="navbar-left">
-                <p class="navbar-text">Hello, {{ username }}</p>
+                <p class="">Hello, {{ username }}</p>
             </div>
             <div class="navbar-right">
                 <form method="post" action="{% url 'logout' %}" class="d-flex">
@@ -20,7 +20,7 @@
                 </form>
             </div>
         </div>
-    </nav>
+    </div>
        
     <div>
         <!-- opcje z lewej dostępne -->
