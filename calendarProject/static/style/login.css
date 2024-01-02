@@ -1,11 +1,7 @@
-
-.centered-body {
+.centered-bod {
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-}
-
-.centered-form {
-    text-align: center;
+    background-color: aquamarine;
 }
