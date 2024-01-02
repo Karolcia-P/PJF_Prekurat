@@ -1,14 +1,13 @@
 # views.py
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from schedule.models import Calendar
 from django.contrib.auth.decorators import login_required
 
 class LoginForm(AuthenticationForm):
     pass
 
-@login_required(login_url='dashboard')
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request=request, data=request.POST)
@@ -21,7 +20,6 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 
-@login_required(login_url='dashboard')
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -34,6 +32,6 @@ def register_view(request):
 
     return render(request, 'register.html', {'form': form})
 
-@login_required
+@login_required(login_url='login')
 def dashboard_view(request):
     return render(request, 'dashboard.html', {'username': request.user.username})
