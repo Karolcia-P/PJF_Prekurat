@@ -1,3 +1,4 @@
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,36 +6,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="../static/style/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'style/dashboard.css' %}">
 </head>
 <body>
-    <div class="body">
-        <div class="container-fluid">
-            <div class="navbar-left">
-                <p class="">Hello, {{ username }}</p>
-            </div>
-            <div class="navbar-right">
-                <form method="post" action="{% url 'logout' %}" class="d-flex">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link">Logout</button>
-                </form>
-            </div>
+    <div class="navbar">
+        <div class="navbar-left">
+            <p class="">Hello, {{ username }}</p>
+        </div>
+        <div class="navbar-right">
+            <form method="post" action="{% url 'logout' %}" class="d-flex">
+                {% csrf_token %}
+                <button type="submit" class="btn">Logout</button>
+            </form>
         </div>
     </div>
        
     <div>
-        <!-- opcje z lewej dostępne -->
-        <div>
-            <!-- Przycisk do wylogowania -->
-            
+        <div class="calendar-section">
+            <h2>Current Month Calendar</h2>
+            <div id="calendar" class="google-calendar"></div>
         </div>
         
-        <!-- kontener z kalendarzem -->
         <div>
-            <div id="calendar">
-                <!-- Tutaj pojawi się kalendarz -->
+            <div >
             </div>
         </div>
     </div>
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funkcja do utworzenia kalendarza
+            function createCalendar(year, month) {
+                var calendarEl = document.getElementById('calendar');
+
+                var daysInMonth = new Date(year, month + 1, 0).getDate();
+                var firstDay = new Date(year, month, 1).getDay();
+
+                var calendarHTML = '<table class="google-calendar-table"><thead><tr><th class="weekend">Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th class="weekend">Sat</th></tr></thead><tbody><tr>';
+
+                for (var i = 0; i < firstDay; i++) {
+                    calendarHTML += '<td></td>';
+                }
+
+                for (var day = 1; day <= daysInMonth; day++) {
+                    var weekendClass = (firstDay + day - 1) % 7 === 0 || (firstDay + day - 1) % 7 === 6 ? 'weekend' : '';
+
+                    calendarHTML += '<td class="' + weekendClass + '">' + day + '</td>';
+
+                    if ((firstDay + day - 1) % 7 === 0 && day !== daysInMonth) {
+                        calendarHTML += '</tr><tr>';
+                    }
+                }
+
+                calendarHTML += '</tr></tbody></table>';
+                calendarEl.innerHTML = calendarHTML;
+            }
+
+            // Uzyskaj aktualną datę
+            var currentDate = new Date();
+            var currentYear = currentDate.getFullYear();
+            var currentMonth = currentDate.getMonth();
+
+            // Wywołaj funkcję, aby utworzyć kalendarz dla aktualnego miesiąca
+            createCalendar(currentYear, currentMonth);
+        });
+</script>
 </body>
 </html>

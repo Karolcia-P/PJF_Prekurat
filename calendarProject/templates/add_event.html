@@ -1,0 +1,17 @@
+<!-- add_event.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Dodaj odpowiednie metatagi i linki do CSS, itp. -->
+    <title>Add Event</title>
+</head>
+<body>
+    <h2>Add Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Event</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+</body>
+</html>

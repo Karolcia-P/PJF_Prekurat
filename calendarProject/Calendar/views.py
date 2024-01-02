@@ -1,12 +1,20 @@
 # views.py
-from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from schedule.models import Calendar
+
 
 class LoginForm(AuthenticationForm):
     pass
+
+class CalendarView(View):
+    template_name = 'calendar_view.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'calendar_list': Calendar.objects.all()})
 
 def login_view(request):
     if request.method == 'POST':
