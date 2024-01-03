@@ -15,10 +15,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-{#                    <form method="post" action="{% url 'logout' %}" class="d-flex">#}
-{#                        {% csrf_token %}#}
-{#                        <button type="submit" class="btn btn-success btn-block" style="background-color: white; color: #5F9E70;">Logout</button>#}
-{#                    </form>#}
+                    <form method="post" action="{% url 'logout' %}" class="d-flex">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-block" style="background-color: white; color: #5F9E70;">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -29,7 +29,7 @@
             <div class="col-md-2 custom-background">
                 <div id="datetime-info" class="text-muted"></div>
                 <div class="vertical-menu ">
-                    <a href="calendar.html" class="btn btn-light">Calendar</a> 
+{#                    <a href="{% url 'calendar' %}" class="btn btn-light">Calendar</a>#}
 {#                    <a href="{% url 'task_list' %}" class="btn btn-light">Daily Tasks</a>#}
 {#                    <a href="{% url 'current_projects' %}" class="btn btn-light">Current Projects</a>#}
 {#                    <a href="{% url 'add_calendar' %}" class="btn btn-light">Add Category</a>#}

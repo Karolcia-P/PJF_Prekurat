@@ -1,5 +1,5 @@
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
@@ -40,3 +40,7 @@ class SignUpView(generic.CreateView):
 @login_required(login_url='login')
 def dashboard_view(request):
     return render(request, 'calendar.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
