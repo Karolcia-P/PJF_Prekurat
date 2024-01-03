@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/calendarProject.iml" filepath="$PROJECT_DIR$/.idea/calendarProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/djangoCalendar.iml" filepath="$PROJECT_DIR$/.idea/djangoCalendar.iml" />
     </modules>
   </component>
 </project>
