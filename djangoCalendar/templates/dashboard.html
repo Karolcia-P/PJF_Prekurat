@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #5F9E70;">
+        <span class="navbar-text text-white" style="font-size: 25px;">
+            Hello, {{ request.user.username }}
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+{#                    <form method="post" action="{% url 'logout' %}" class="d-flex">#}
+{#                        {% csrf_token %}#}
+{#                        <button type="submit" class="btn btn-success btn-block" style="background-color: white; color: #5F9E70;">Logout</button>#}
+{#                    </form>#}
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-</body>
-</html>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 custom-background">
+                <div id="datetime-info" class="text-muted"></div>
+                <div class="vertical-menu ">
+                    <a href="calendar.html" class="btn btn-light">Calendar</a> 
+{#                    <a href="{% url 'task_list' %}" class="btn btn-light">Daily Tasks</a>#}
+{#                    <a href="{% url 'current_projects' %}" class="btn btn-light">Current Projects</a>#}
+{#                    <a href="{% url 'add_calendar' %}" class="btn btn-light">Add Category</a>#}
+                </div>
+            </div>
+            <div class="col-md-10">
+                {% block dynamic_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'calender/main.js' %}"></script>
+    <script>
+        function enableButtons() {
+            var buttons = document.querySelectorAll('.vertical-menu button');
+            buttons.forEach(function(button) {
+                button.removeAttribute('disabled');
+            });
+        }
+        function updateDate() {
+            var datetimeInfo = document.getElementById('datetime-info');
+            var now = new Date();
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            datetimeInfo.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update datetime initially
+        updateDate();
+        
+        // Update date every day (86400000 milliseconds = 24 hours)
+        //setInterval(updateDate, 86400000);
+    </script>
+{% endblock %}

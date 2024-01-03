@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block dynamic_content %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="event-list">
+                <h4>Event List</h4>
+                <ul class="event-list-items">
+                    {% for event in event_list %}
+                        <li>
+                            <div class="fc-event">
+                                <h3>{{ event.title }}</h3>
+                                <p>{{ event.start_time|date:"H:i" }} to {{ event.end_time|date:"H:i" }}</p>
+                                <!-- Dodaj inne informacje o evencie, jeśli dostępne -->
+                            </div>
+                        </li>
+                    {% empty %}
+                        <p>No Events Found</p>
+                    {% endfor %}
+                </ul>
+            </div>
 
-</body>
-</html>
+        </div>
+        <div class="col-md-9">
+            <div class="calendar-section">
+                <div id="calendar"></div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        // Konfiguracja kalendarza
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        initialView: 'dayGridMonth',
+                        
+                        events: [
+                            // Tutaj możesz dodać wydarzenia do kalendarza, jeśli są jakieś domyślne
+                        ],
+                        dayRender: function(info) {
+                            var dayElement = info.el;
+            
+                            dayElement.addEventListener('mouseover', function() {
+                                dayElement.style.backgroundColor = 'grey';  // Dostosuj kolor tła na hover
+                            });
+            
+                            dayElement.addEventListener('mouseout', function() {
+                                dayElement.style.backgroundColor = '';  // Przywróć domyślne tło
+                            });
+            
+                            dayElement.addEventListener('click', function() {
+                                showModalForEvent(info.date);
+                            });
+                        },
+                    });
+
+                    calendar.render();
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}

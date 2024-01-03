@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import mimetypes
+
 mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -72,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoCalendar.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -82,7 +81,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -102,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -113,7 +110,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -126,7 +122,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # settings.py
 
 BOOTSTRAP_URL_CSS = "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -134,3 +129,4 @@ BOOTSTRAP_URL_JS = "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootst
 JQUERY_URL = "https://code.jquery.com/jquery-3.2.1.slim.min.js"
 POPPER_URL = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
