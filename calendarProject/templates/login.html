@@ -1,25 +1,33 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+
+{% block title %}Login{% endblock %}
+
+{% block styles %}
     <link rel="stylesheet" type="text/css" href="{% static 'style/login.css' %}">
+{% endblock %}
 
-</head>
-<body>
-
-    <div class="centered-bod">
-        <h2>Login</h2>
-        <form method="post" >
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="">Login</button>
-        </form>
-        <p>Don't have an account? <button onclick="window.location.href='{% url 'register' %}'">Register</button></p>
-
+{% block content %}
+     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="centered-bod">
+                    <h2 class="text-center">Login</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group text-center">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        <div class="form-group text-center">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Login</button>
+                    </form>
+                    <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                </div>
+            </div>
+        </div>
     </div>
-
-</body>
-</html>
+{% endblock %}

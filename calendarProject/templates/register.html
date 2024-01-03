@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+{% extends 'base.html' %}
+{% load static %}
 
-</head>
-<body>
-    <h2>Register</h2>
-    <form method="post" action="{% url 'register' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" >Register</button>
-    </form>
-<p>Don't have an account? <button onclick="window.location.href='{% url 'login' %}'">Login</button></p>
-</body>
-</html>
+{% block title %}Login{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="centered-bod">
+                    <h2 class="text-center">Register</h2>
+                    <form method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success btn-block">Register</button>
+                    </form>
+                    <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

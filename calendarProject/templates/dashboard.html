@@ -4,17 +4,24 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style/dashboard.css' %}">
 {% endblock %}
 {% block content %}
-    <div class="navbar">
-        <div class="navbar-left">
-            <p class="">Hello, {{ username }}</p>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #5F9E70;">
+        <span class="navbar-text text-white" style="font-size: 18px;">
+            Hello, {{ username }}
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}" class="d-flex">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-block" style="background-color: white; color: #5F9E70;">Logout</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-        <div class="navbar-right">
-            <form method="post" action="{% url 'logout' %}" class="d-flex">
-                {% csrf_token %}
-                <button type="submit" class="btn">Logout</button>
-            </form>
-        </div>
-    </div>
+    </nav>
        
     <div class="dashboard-content">
         <div class="menu">
