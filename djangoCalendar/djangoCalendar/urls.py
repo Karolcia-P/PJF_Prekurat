@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from MyCalendar.views import CustomLoginView, SignUpView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', CustomLoginView.as_view(), name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('signup/', SignUpView.as_view(), name='signup'),
 ]

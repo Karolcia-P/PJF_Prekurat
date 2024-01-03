@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,7 +28,6 @@ SECRET_KEY = 'django-insecure-aqw)1o+3xbpkl0_^6y8-($vgyhj&mr&8w(0bhr$rd5v^)8jb1s
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -125,3 +125,12 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# settings.py
+
+BOOTSTRAP_URL_CSS = "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+BOOTSTRAP_URL_JS = "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+JQUERY_URL = "https://code.jquery.com/jquery-3.2.1.slim.min.js"
+POPPER_URL = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+
