@@ -1,9 +1,18 @@
+html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body{
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
 }
 .navbar {
-    background-color: #1F0026;
+    background-color: #5F9E70;
     color: white;
     padding: 10px;
     justify-content: space-between;
@@ -40,36 +49,66 @@ body{
     cursor: pointer;
 }
 
-
-.google-calendar {
-    margin-top: 20px;
-}
-
-.google-calendar-table {
+.dashboard-content{
+    display: flex;
+    height: 100%;
     width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
 }
 
-.google-calendar-table th, .google-calendar-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.google-calendar-table th {
+.menu {
+    width: 15%; /* 1/5 of the page width */
     background-color: #f2f2f2;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100%;
 }
 
-.google-calendar-table td {
+.vertical-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.vertical-menu button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left;
     cursor: pointer;
+    border: none;
+    background-color: #ddd;
 }
 
-.weekend {
-    color: red;
+.calendar-section{
+    width: 100%;
+    padding: 1%;
 }
 
-.calendar-section {
-    width: 60%;
+#calendar {
+    width: 100%;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.fc-header-toolbar {
+    display: flex; /* Ustawienie przycisków w jednej linii */
+    justify-content: space-between; /* Rozłożenie przycisków na krańcach */
+    border: 1px solid #ddd; /* Dodanie krawędzi do nagłówka kalendarza */
+    margin-top: 10px; /* Dodatkowy margines na górę */
+    padding: 10px; /* Dodanie wypełnienia dla estetyki */
+}
+
+.fc-daygrid {
+    border-collapse: collapse; /* Zmniejszenie odstępów między komórkami kalendarza */
+    width: 100%; /* Rozciągnięcie kalendarza na całą szerokość kontenera */
+}
+
+.fc-day {
+    border: 1px solid #ddd;
+    width: calc(100% / 7); /* Równy podział na 7 dni w tygodniu */
+}
+
+.fc-day-number {
+    display: block;
+    margin: 5px;
+    text-align: center;
 }

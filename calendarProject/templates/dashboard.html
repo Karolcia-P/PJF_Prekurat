@@ -1,14 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+{% block styles %}
     <link rel="stylesheet" type="text/css" href="{% static 'style/dashboard.css' %}">
-</head>
-<body>
+{% endblock %}
+{% block content %}
     <div class="navbar">
         <div class="navbar-left">
             <p class="">Hello, {{ username }}</p>
@@ -21,56 +16,52 @@
         </div>
     </div>
        
-    <div>
-        <div class="calendar-section">
-            <h2>Current Month Calendar</h2>
-            <div id="calendar" class="google-calendar"></div>
-        </div>
-        
-        <div>
-            <div >
+    <div class="dashboard-content">
+        <div class="menu">
+            <div class="vertical-menu">
+                <button disabled>Button 1</button>
+                <button disabled>Button 2</button>
+                <button disabled>Button 3</button>
+                <button disabled>Button 4</button>
+                <button disabled>Button 5</button>
             </div>
+        </div>
+        <div class="calendar-section">
+            <div id="calendar"></div>
         </div>
     </div>
 
-
-<script>
+    <script>
+        function enableButtons() {
+            var buttons = document.querySelectorAll('.vertical-menu button');
+            buttons.forEach(function(button) {
+                button.removeAttribute('disabled');
+            });
+        }
         document.addEventListener('DOMContentLoaded', function() {
-            // Funkcja do utworzenia kalendarza
-            function createCalendar(year, month) {
-                var calendarEl = document.getElementById('calendar');
+            var calendarEl = document.getElementById('calendar');
+            var today = new Date();
 
-                var daysInMonth = new Date(year, month + 1, 0).getDate();
-                var firstDay = new Date(year, month, 1).getDay();
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
+                },
+                initialDate: today,
+                navLinks: true,
+                selectable: true,
+                selectMirror: true,
+                select: function(arg) {
+                    console.log('clicked');
+                    console.log(arg.start);
+                    console.log(arg.end);
+                    enableButtons();  // Now, enable buttons when a date is selected
+                },
+                // ...additional calendar configuration...
+            });
 
-                var calendarHTML = '<table class="google-calendar-table"><thead><tr><th class="weekend">Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th class="weekend">Sat</th></tr></thead><tbody><tr>';
-
-                for (var i = 0; i < firstDay; i++) {
-                    calendarHTML += '<td></td>';
-                }
-
-                for (var day = 1; day <= daysInMonth; day++) {
-                    var weekendClass = (firstDay + day - 1) % 7 === 0 || (firstDay + day - 1) % 7 === 6 ? 'weekend' : '';
-
-                    calendarHTML += '<td class="' + weekendClass + '">' + day + '</td>';
-
-                    if ((firstDay + day - 1) % 7 === 0 && day !== daysInMonth) {
-                        calendarHTML += '</tr><tr>';
-                    }
-                }
-
-                calendarHTML += '</tr></tbody></table>';
-                calendarEl.innerHTML = calendarHTML;
-            }
-
-            // Uzyskaj aktualną datę
-            var currentDate = new Date();
-            var currentYear = currentDate.getFullYear();
-            var currentMonth = currentDate.getMonth();
-
-            // Wywołaj funkcję, aby utworzyć kalendarz dla aktualnego miesiąca
-            createCalendar(currentYear, currentMonth);
+            calendar.render();
         });
-</script>
-</body>
-</html>
+    </script>
+{% endblock %}
