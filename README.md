@@ -1,23 +1,19 @@
-# Aplikacja kalendarza
+# Aplikacja Kalendarza
 
 ## Opis:
-Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarządzanie czasem poprzez dodawanie, edycję oraz śledzenie wydarzeń, zadań i projektów w intuicyjny sposób. Projekt opiera się na platformie Django w języku Python.
+Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarządzanie czasem poprzez dodawanie, edycję oraz śledzenie wydarzeń, zadań i projektów. Projekt opiera się na platformie Django w języku Python.
 
 ## Funkcje:
 
-### 1. Dodawanie Wydarzeń, Zadań i Projektów:
-- Użytkownik może dodawać nowe wydarzenia, zadania oraz projekty, określając ich datę, godzinę i opis.
-- Istnieje możliwość przypisania priorytetów do zadań dla lepszego zrozumienia ich ważności.
+### Zarządzanie Kalendarzami:
+- Użytkownik może tworzyć i zarządzać wieloma kalendarzami, przypisując je do konkretnych obszarów życia lub kategorii wydarzeń.
 
-### 2. Kalendarz Z Dniami Wolnymi:
-- Użytkownik ma opcję oznaczenia dni wolnych, w których nie ma żadnych zadań ani wydarzeń.
-- Dni wolne wyróżniają się specjalnym znacznikiem, a ich brak uwzględniany jest podczas planowania.
+### Dodawanie Wydarzeń i Projektów:
+- Możliwość dodawania nowych wydarzeń oraz projektów, określając ich datę, godzinę i opis.
 
-### 3. Powiadomienia:
+### Powiadomienia:
 - Implementacja systemu powiadomień, umożliwiającego użytkownikowi ustawienie przypomnień o zbliżających się wydarzeniach, zadaniach czy projektach.
 
-### 4. Podkalendarze:
-- Funkcja tworzenia podkalendarzy umożliwia użytkownikowi organizację zadań w kontekście konkretnych obszarów życia.
-- Każdy podkalendarz może mieć unikalny kolor, ułatwiający rozróżnianie różnych dziedzin.
-
-
+### Listy Zadań:
+- Każdy użytkownik ma dostęp do jednej listy zadań, gdzie może dodawać, edytować i usuwać zadania, określając ich tytuł, treść i datę wykonania.
+- Funkcja przypisywania priorytetów do zadań w celu lepszego zrozumienia ich ważności.
