@@ -1,0 +1,32 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block dynamic_content %}
+    <div class="calendar-section">
+        <div id="calendar"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                aspectRatio: 2,
+                responsive: true,
+                // Konfiguracja kalendarza
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialView: 'dayGridMonth',
+                events: [
+                    // Tutaj możesz dodać wydarzenia do kalendarza, jeśli są jakieś domyślne
+                    // Możesz użyć zmiennych Django, aby przenieść dane z backendu do frontendu.
+                    // Na przykład: {% for event in default_events %}{{ event|safe }},{% endfor %}
+                ],
+                // Dodaj inne opcje kalendarza według potrzeb
+            });
+
+            calendar.render();
+        });
+    </script>
+{% endblock %}

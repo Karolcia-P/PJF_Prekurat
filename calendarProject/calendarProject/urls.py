@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Calendar.views import register_view, dashboard_view, login_view
+from Calendar.views import register_view, dashboard_view, login_view, calendar_view, add_event_view, task_list_view, \
+    current_projects_view
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -25,5 +26,9 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('user_dashboard/', dashboard_view, name='dashboard'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('calendar/', calendar_view, name='calendar'),
+    path('add_event/', add_event_view, name='add_event'),
+    path('task_list/', task_list_view, name='task_list'),
+    path('current_projects/', current_projects_view, name='current_projects'),
 ]
 

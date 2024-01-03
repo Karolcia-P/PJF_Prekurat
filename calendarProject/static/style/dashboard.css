@@ -12,68 +12,41 @@ body{
     overflow: hidden;
 }
 
+#datetime-info{
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
 
+}
+
+.container-fluid, .row {
+    height: 100%;
+}
 
 .dashboard-content{
     display: flex;
     height: 100%;
     width: 100%;
 }
-
-.menu {
-    width: 15%; /* 1/5 of the page width */
-    background-color: #f2f2f2;
-    padding: 20px;
+.custom-background {
+    background-color: rgba(122, 204, 144, 0.5);
+    padding: 5px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height: 100%;
-}
 
+}
 .vertical-menu {
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
 }
 
-.vertical-menu button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-align: left;
-    cursor: pointer;
-    border: none;
-    background-color: #ddd;
+.vertical-menu a{
+    margin-bottom: 5px;
 }
 
 .calendar-section{
     width: 100%;
+    height: 100%;
     padding: 1%;
-}
-
-#calendar {
-    width: 100%;
-    border: 1px solid #ddd;
-    margin-top: 10px;
-}
-
-.fc-header-toolbar {
-    display: flex; /* Ustawienie przycisków w jednej linii */
-    justify-content: space-between; /* Rozłożenie przycisków na krańcach */
-    border: 1px solid #ddd; /* Dodanie krawędzi do nagłówka kalendarza */
-    margin-top: 10px; /* Dodatkowy margines na górę */
-    padding: 10px; /* Dodanie wypełnienia dla estetyki */
-}
-
-.fc-daygrid {
-    border-collapse: collapse; /* Zmniejszenie odstępów między komórkami kalendarza */
-    width: 100%; /* Rozciągnięcie kalendarza na całą szerokość kontenera */
-}
-
-.fc-day {
-    border: 1px solid #ddd;
-    width: calc(100% / 7); /* Równy podział na 7 dni w tygodniu */
-}
-
-.fc-day-number {
-    display: block;
-    margin: 5px;
-    text-align: center;
 }
