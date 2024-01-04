@@ -5,24 +5,19 @@
     <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
 {% endblock %}
 {% block dynamic_content %}
-    {% now "Y-m-d H:i:s" as current_datetime %}
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3.5">
             <div class="event-list">
-                <h4>Event List</h4>
+                <h4>Current Events</h4>
                 <ul class="event-list-items">
                     {% for event in object_list %}
-                        {% if event.user == request.user and event.end_date > now %}
-                            <li>
-                                <div class="fc-event">
-                                    <h3>{{ event.title }}</h3>
-                                    <p>{{ event.start_date|date:"F d, Y" }} - {{ event.end_date|date:"F d, Y" }}</p>
-                                    {% if event.description %}
-                                        <p>Description: {{ event.description }}</p>
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endif %}
+                        <li>
+                            <div class="fc-event">
+                                <h3>{{ event.title }}</h3>
+                                <p>{{ event.start_date|date:"F d, Y H:i" }} - {{ event.end_date|date:"F d, Y H:i" }}</p>
+                                
+                            </div>
+                        </li>
                     {% empty %}
                         <p>No Events Found</p>
                     {% endfor %}
@@ -44,11 +39,15 @@
                             right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
                         initialView: 'dayGridMonth',
-                        
-                        events: [
-                            // Tutaj możesz dodać wydarzenia do kalendarza, jeśli są jakieś domyślne
-                        ],
-                        
+                        eventDisplay: 'block', 
+                        events: {{ events_json|safe }},
+                        eventContent: function(arg) {
+                            return {
+                                html: '<h8 style="color: white;">' + arg.event.title + '</h8>',
+                                backgroundColor: arg.event.extendedProps.color,
+                                borderColor: arg.event.extendedProps.color
+                            };
+                        },
                     });
                     
                     calendar.render();

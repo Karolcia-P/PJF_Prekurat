@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 from django.contrib.auth import login, logout
@@ -17,6 +18,17 @@ from MyCalendar.models import Event, Calendar
 # from .forms import LoginForm  # Pamiętaj o dostosowaniu ścieżki do formularza logowania
 class LoginForm(AuthenticationForm):
     pass
+def get_events_json(events):
+    event_list = []
+    for event in events:
+        event_list.append({
+            'title': event.title,
+            'start': event.start_date.isoformat(),
+            'end': event.end_date.isoformat(),
+            'color': event.calendar.color,
+        })
+    return json.dumps(event_list)
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -45,7 +57,12 @@ class SignUpView(generic.CreateView):
 
 @login_required(login_url='login')
 def dashboard_view(request):
-    return render(request, 'calendar.html')
+    template_name = 'calendar.html'
+    now = datetime.now()
+    events = Event.objects.filter(user=request.user, end_date__gt=now)
+    # calendar_colors = {calendar.id: calendar.color for calendar in Calendar.objects.filter(user=request.user)}
+    context = {'object_list': events, 'events_json': get_events_json(events)}
+    return render(request, template_name, context)
 
 def logout_view(request):
     logout(request)

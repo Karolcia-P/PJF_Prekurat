@@ -15,10 +15,11 @@ class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    start_date = models.DateTimeField()
+    start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=1))
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     notification = models.TimeField(default=timezone.timedelta(hours=1))
+
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
