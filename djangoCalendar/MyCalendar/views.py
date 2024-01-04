@@ -13,6 +13,7 @@ from django.views.generic import UpdateView, DeleteView
 
 from MyCalendar.forms import EventForm, CategoryForm
 from MyCalendar.models import Event, Calendar
+from .models import Task
 
 
 # from .forms import LoginForm  # Pamiętaj o dostosowaniu ścieżki do formularza logowania
@@ -136,3 +137,14 @@ class EditCategoryView(UpdateView):
     form_class = CategoryForm
     template_name = 'edit_category.html'
     success_url = reverse_lazy('category_list')
+
+def task_list_view(request):
+    high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY)
+    medium_priority_tasks = Task.objects.filter(priority=Task.MEDIUM_PRIORITY)
+    low_priority_tasks = Task.objects.filter(priority=Task.LOW_PRIORITY)
+
+    return render(request, 'task_list.html', {
+        'high_priority_tasks': high_priority_tasks,
+        'medium_priority_tasks': medium_priority_tasks,
+        'low_priority_tasks': low_priority_tasks,
+    })

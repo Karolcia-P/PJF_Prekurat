@@ -22,12 +22,20 @@ class Event(models.Model):
 
 
 class Task(models.Model):
+    HIGH_PRIORITY = 1
+    MEDIUM_PRIORITY = 2
+    LOW_PRIORITY = 3
+
+    PRIORITY_CHOICES = [
+        (HIGH_PRIORITY, 'High Priority'),
+        (MEDIUM_PRIORITY, 'Medium Priority'),
+        (LOW_PRIORITY, 'Low Priority'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    content = models.TextField()
     start_date = models.DateField()
-    priority = models.IntegerField()
+    priority = models.IntegerField(choices=PRIORITY_CHOICES)
     completed = models.BooleanField(default=False)
 
 class Project(models.Model):

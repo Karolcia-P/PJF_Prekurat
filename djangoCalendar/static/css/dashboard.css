@@ -74,5 +74,15 @@ body{
 
 .mar{
     padding: 20px;
+}
+.task-list {
+    display: inline-block;
+    background-color: #7baf86;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px;
+}
 
+.task-list h4 {
+    color: #ffffff;
 }
