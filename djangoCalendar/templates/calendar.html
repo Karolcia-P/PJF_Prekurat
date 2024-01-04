@@ -5,12 +5,13 @@
     <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
 {% endblock %}
 {% block dynamic_content %}
+    {% now "Y-m-d H:i:s" as current_datetime %}
     <div class="row">
         <div class="col-md-3">
             <div class="event-list">
                 <h4>Event List</h4>
                 <ul class="event-list-items">
-                    {% for event in event_list %}
+                    {% for event in object_list %}
                         {% if event.user == request.user and event.end_date > now %}
                             <li>
                                 <div class="fc-event">

@@ -98,7 +98,7 @@ class DeleteEventView(DeleteView):
         return Event.objects.filter(user=self.request.user)
 
 def category_list(request):
-    categories = Calendar.objects.all()
+    categories = Calendar.objects.filter(user=request.user)
     return render(request, 'category_list.html', {'categories': categories})
 
 def add_category(request):
