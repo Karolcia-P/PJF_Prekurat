@@ -6,14 +6,18 @@ from .models import Event, Calendar
 
 
 class EventForm(forms.ModelForm):
-    calendar = forms.ModelChoiceField(queryset=Calendar.objects.all())
+    calendar = forms.ModelChoiceField(
+        queryset=Calendar.objects.all(),
+        label='Calendar',  # Etykieta pola
+        widget=forms.Select(attrs={'class': 'form-control'}),  # Dodatkowe atrybuty dla widgetu
+    )
 
     class Meta:
         model = Event
         fields = ['title', 'description', 'start_date', 'end_date', 'calendar', 'notification']
         widgets = {
-            'start_date': forms.widgets.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.widgets.DateInput(attrs={'type': 'date'}),
+            'start_date': forms.widgets.DateInput(attrs={'type': 'datetime-local'}),
+            'end_date': forms.widgets.DateInput(attrs={'type': 'datetime-local'}),
         }
 
     def clean(self):
@@ -24,3 +28,9 @@ class EventForm(forms.ModelForm):
         if start_date and end_date and end_date <= start_date:
             raise ValidationError("End date must be later than start date.")
 
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Calendar
+        fields = ['name', 'color']

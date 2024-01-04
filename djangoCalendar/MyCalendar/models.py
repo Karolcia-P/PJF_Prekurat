@@ -8,6 +8,9 @@ class Calendar(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=7, default='#0000FF')
 
+    def __str__(self):
+        return self.name
+
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -15,7 +18,7 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=1))
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
-    notification = models.DateTimeField(default=timezone.now() - timezone.timedelta(hours=1))
+    notification = models.TimeField(default=timezone.timedelta(hours=1))
 
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

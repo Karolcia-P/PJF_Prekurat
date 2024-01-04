@@ -8,9 +8,10 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib import messages
+from django.views.generic import UpdateView, DeleteView
 
-from MyCalendar.forms import EventForm
-from MyCalendar.models import Event
+from MyCalendar.forms import EventForm, CategoryForm
+from MyCalendar.models import Event, Calendar
 
 
 # from .forms import LoginForm  # Pamiętaj o dostosowaniu ścieżki do formularza logowania
@@ -57,33 +58,64 @@ def add_event(request):
             new_event = form.save(commit=False)
             new_event.user = request.user
             new_event.save()
-            return redirect('dashboard')
+            messages.success(request, 'Event added successfully.')
+            return redirect('events')
+        else:
+            messages.error(request, 'Invalid form submission. Please check the form for errors.')
     else:
         form = EventForm()
 
     return render(request, 'add_event.html', {'form': form})
 
 
-@login_required(login_url='login')
 def events_view(request):
     template_name = 'events.html'
-
-    # Pobierz dzisiejszą datę i czas
     now = datetime.now()
 
-    if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            new_event = form.save(commit=False)
-            new_event.user = request.user
-            new_event.save()
-            return redirect('events')
-    else:
-        form = EventForm()
-
-    # Pobierz tylko aktualne wydarzenia użytkownika
-    events = Event.objects.filter(user=request.user, end_date__gte=now)
-
-    context = {'form': form, 'events': events}
+    events = Event.objects.filter(user=request.user, end_date__gt=now)
+    context = {'object_list': events}
 
     return render(request, template_name, context)
+
+class EditEventView(UpdateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'edit_event.html'
+    success_url = reverse_lazy('events')
+
+    def get_queryset(self):
+        return Event.objects.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class DeleteEventView(DeleteView):
+    model = Event
+    success_url = reverse_lazy('events')
+    template_name = 'event_confirm_delete.html'
+    def get_queryset(self):
+        return Event.objects.filter(user=self.request.user)
+
+def category_list(request):
+    categories = Calendar.objects.all()
+    return render(request, 'category_list.html', {'categories': categories})
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            new_category = form.save(commit=False)
+            new_category.user = request.user
+            new_category.save()
+            return redirect('dashboard')
+    else:
+        form = CategoryForm()
+
+    return render(request, 'add_category.html', {'category_form': form})
+
+class EditCategoryView(UpdateView):
+    model = Calendar
+    form_class = CategoryForm
+    template_name = 'edit_category.html'
+    success_url = reverse_lazy('category_list')
