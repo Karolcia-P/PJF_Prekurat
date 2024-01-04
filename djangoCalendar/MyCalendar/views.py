@@ -82,7 +82,7 @@ def add_event(request):
         else:
             messages.error(request, 'Invalid form submission. Please check the form for errors.')
     else:
-        form = EventForm(user=request.user)
+        form = EventForm()
 
     return render(request, 'add_event.html', {'form': form})
 
@@ -106,13 +106,10 @@ class EditEventView(UpdateView):
     def get_queryset(self):
         return Event.objects.filter(user=self.request.user)
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.start_date = timezone.make_aware(form.cleaned_data['start_date'])
+        form.instance.end_date = timezone.make_aware(form.cleaned_data['end_date'])
         return super().form_valid(form)
 
 class DeleteEventView(DeleteView):
@@ -155,6 +152,7 @@ def task_list_view(request):
         'medium_priority_tasks': medium_priority_tasks,
         'low_priority_tasks': low_priority_tasks,
     })
+
 
 def add_task(request):
     if request.method == 'POST':
