@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-from .models import Event, Calendar
+from .models import Event, Calendar, Task
 
 
 class EventForm(forms.ModelForm):
@@ -29,8 +29,15 @@ class EventForm(forms.ModelForm):
             raise ValidationError("End date must be later than start date.")
 
 
-
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Calendar
         fields = ['name', 'color']
+
+
+class TaskForm(forms.ModelForm):
+    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'start_date', 'priority']
+

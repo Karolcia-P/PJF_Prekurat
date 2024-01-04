@@ -19,7 +19,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from MyCalendar.views import login_view, SignUpView, dashboard_view, logout_view, events_view, add_event, category_list, \
-    add_category, EditCategoryView, EditEventView, DeleteEventView, task_list_view
+    add_category, EditCategoryView, EditEventView, DeleteEventView, task_list_view, add_task, EditTaskView, \
+    completed_tasks_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,4 +37,8 @@ urlpatterns = [
     path('add_category/', add_category, name='add_category'),
     path('edit_category/<int:pk>/', EditCategoryView.as_view(), name='edit_category'),
     path('task_list/', task_list_view, name='task_list'),
+    path('add_task/', add_task, name='add_task'),
+    path('edit_task/<int:pk>/', EditTaskView.as_view(), name='edit_task'),
+    path('completed-tasks/', completed_tasks_view, name='completed_tasks'),
+
 ]

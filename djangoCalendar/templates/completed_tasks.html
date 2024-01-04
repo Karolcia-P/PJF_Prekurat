@@ -1,0 +1,40 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    
+{% endblock %}
+{% block dynamic_content %}
+    <div class="row mar">
+         <div class="col-md-12">
+             <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mr-auto">Completed Tasks</h2>
+                <a href="{% url 'task_list' %}" class="btn btn-success ml-auto">Go back</a>
+            </div>
+
+            <ul class="list-group">
+                {% for task in completed_tasks %}
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3>{{ task.title }}</h3>
+                                <p>{{ task.start_date|date:"F d, Y" }}</p>
+                                {% if task.description %}
+                                    <p>Description: {{ task.description }}</p>
+                                {% endif %}
+                            </div>
+{#                            <div class="btn-group" role="group" aria-label="Category Actions">#}
+{#                                <a href="{% url 'edit_category' category.id %}" class="btn btn-primary">Edit</a>#}
+{#                            </div>#}
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No completed tasks found.</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script>
+
+    </script>
+{% endblock %}

@@ -11,7 +11,7 @@ from django.views import generic
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 
-from MyCalendar.forms import EventForm, CategoryForm
+from MyCalendar.forms import EventForm, CategoryForm, TaskForm
 from MyCalendar.models import Event, Calendar
 from .models import Task
 
@@ -126,7 +126,7 @@ def add_category(request):
             new_category = form.save(commit=False)
             new_category.user = request.user
             new_category.save()
-            return redirect('dashboard')
+            return redirect('category')
     else:
         form = CategoryForm()
 
@@ -139,12 +139,38 @@ class EditCategoryView(UpdateView):
     success_url = reverse_lazy('category_list')
 
 def task_list_view(request):
-    high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY)
-    medium_priority_tasks = Task.objects.filter(priority=Task.MEDIUM_PRIORITY)
-    low_priority_tasks = Task.objects.filter(priority=Task.LOW_PRIORITY)
+    high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY, completed=False).order_by('start_date')
+    medium_priority_tasks = Task.objects.filter(priority=Task.MEDIUM_PRIORITY, completed=False).order_by('start_date')
+    low_priority_tasks = Task.objects.filter(priority=Task.LOW_PRIORITY, completed=False).order_by('start_date')
 
     return render(request, 'task_list.html', {
         'high_priority_tasks': high_priority_tasks,
         'medium_priority_tasks': medium_priority_tasks,
         'low_priority_tasks': low_priority_tasks,
+    })
+
+def add_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user  # Assign the current user to the task
+            task.save()
+            return redirect('task_list')  # Adjust this to your actual redirect URL
+    else:
+        form = TaskForm()
+
+    return render(request, 'add_task.html', {'form': form})
+
+class EditTaskView(UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'edit_task.html'
+    success_url = reverse_lazy('task_list')
+
+def completed_tasks_view(request):
+    completed_tasks = Task.objects.filter(completed=True).order_by('-start_date')
+
+    return render(request, 'completed_tasks.html', {
+        'completed_tasks': completed_tasks,
     })
