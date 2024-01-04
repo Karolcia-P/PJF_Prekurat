@@ -86,3 +86,13 @@ body{
 .task-list h4 {
     color: #ffffff;
 }
+
+.event-current-ended {
+    text-align: center;
+    font-size: 25px;
+}
+
+.event-current-ended button{
+    padding: 10px 25px;
+    margin-top: 5px;
+}

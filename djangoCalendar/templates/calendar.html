@@ -6,22 +6,14 @@
 {% endblock %}
 {% block dynamic_content %}
     <div class="row">
-        <div class="col-md-3.5">
+        <div class="col-md-3">
             <div class="event-list">
-                <h4>Current Events</h4>
-                <ul class="event-list-items">
-                    {% for event in object_list %}
-                        <li>
-                            <div class="fc-event">
-                                <h3>{{ event.title }}</h3>
-                                <p>{{ event.start_date|date:"F d, Y H:i" }} - {{ event.end_date|date:"F d, Y H:i" }}</p>
-                                
-                            </div>
-                        </li>
-                    {% empty %}
-                        <p>No Events Found</p>
-                    {% endfor %}
-                </ul>
+                <div class="event-current-ended">
+                    <button id="currentEventsBtn" class="btn btn-light">Current Events</button>
+                    <button id="endedEventsBtn" class="btn btn-light">Ended Events</button>
+                </div>
+                
+
             </div>
         </div>
         <div class="col-md-9">
@@ -51,6 +43,58 @@
                     });
                     
                     calendar.render();
+                    
+                    filterEvents(false);
+                    
+                    document.getElementById('currentEventsBtn').addEventListener('click', function() {
+                        filterEvents(false);  // false oznacza bieżące wydarzenia
+                    });
+
+                    document.getElementById('endedEventsBtn').addEventListener('click', function() {
+                        filterEvents(true);  // true oznacza zakończone wydarzenia
+                    });
+
+                    // Funkcja do filtrowania wydarzeń
+                    function filterEvents(ended) {
+                        var eventList = document.getElementById('eventList');
+                        if (!eventList) {
+                            // Utwórz listę wydarzeń, jeśli nie istnieje
+                            eventList = document.createElement('ul');
+                            eventList.className = 'event-list-items';
+                            eventList.id = 'eventList';
+
+                            // Dodaj listę do kontenera
+                            document.querySelector('.event-list').appendChild(eventList);
+
+                            // Dodaj wydarzenia do listy
+                            for (var i = 0; i < {{ events_json|safe }}.length; i++) {
+                                var eventItem = document.createElement('li');
+                                eventItem.className = 'event-item';
+                                eventItem.id = 'event-item-' + i;
+                                
+                                var eventContent = document.createElement('div');
+                                eventContent.className = 'fc-event';
+
+                                eventContent.innerHTML = '<h5>' + {{ events_json|safe }}[i].title + '</h5>' + '<p>' + new Date({{ events_json|safe }}[i].start).toLocaleString() + ' - ' + new Date({{ events_json|safe }}[i].end).toLocaleString() + '</p>';
+
+                                eventItem.appendChild(eventContent);
+                                eventList.appendChild(eventItem);
+                            }
+                        }
+
+                        var eventItems = eventList.getElementsByClassName('event-item');
+
+                        for (var i = 0; i < eventItems.length; i++) {
+                            var endTimestamp = new Date({{ events_json|safe }}[i].end).getTime();
+                            var nowTimestamp = new Date().getTime();
+
+                            if ((ended && endTimestamp <= nowTimestamp) || (!ended && endTimestamp > nowTimestamp)) {
+                                eventItems[i].style.display = 'block';
+                            } else {
+                                eventItems[i].style.display = 'none';
+                            }
+                        }
+                    }
                 });
             </script>
         </div>

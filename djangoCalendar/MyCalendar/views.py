@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
@@ -59,8 +60,8 @@ class SignUpView(generic.CreateView):
 @login_required(login_url='login')
 def dashboard_view(request):
     template_name = 'calendar.html'
-    now = datetime.now()
-    events = Event.objects.filter(user=request.user, end_date__gt=now)
+    now = timezone.now()
+    events = Event.objects.filter(user=request.user)
     # calendar_colors = {calendar.id: calendar.color for calendar in Calendar.objects.filter(user=request.user)}
     context = {'object_list': events, 'events_json': get_events_json(events)}
     return render(request, template_name, context)
@@ -81,19 +82,20 @@ def add_event(request):
         else:
             messages.error(request, 'Invalid form submission. Please check the form for errors.')
     else:
-        form = EventForm()
+        form = EventForm(user=request.user)
 
     return render(request, 'add_event.html', {'form': form})
 
 
 def events_view(request):
     template_name = 'events.html'
-    now = datetime.now()
+    now = timezone.now()
 
     events = Event.objects.filter(user=request.user, end_date__gt=now)
     context = {'object_list': events}
 
     return render(request, template_name, context)
+
 
 class EditEventView(UpdateView):
     model = Event
@@ -103,6 +105,11 @@ class EditEventView(UpdateView):
 
     def get_queryset(self):
         return Event.objects.filter(user=self.request.user)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
