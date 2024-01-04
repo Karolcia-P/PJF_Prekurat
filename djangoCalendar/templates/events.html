@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block dynamic_content %}
+    <div class="row mar">
+         <div class="col-md-12">
+             <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mr-auto">Event List</h2>
+                <a href="{% url 'add_event' %}" class="btn btn-success ml-auto">New Event</a>
+            </div>
+         
+         
+            <ul class="list-group">
+                {% for event in event_list %}
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3>{{ event.title }}</h3>
+                                <p>{{ event.start_date|date:"F d, Y" }} - {{ event.end_date|date:"F d, Y" }}</p>
+                                {% if event.description %}
+                                    <p>Description: {{ event.description }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Event Actions">
+{#                                <a href="{% url 'edit_event' event.id %}" class="btn btn-primary">Edit</a>#}
+{#                                <a href="{% url 'delete_event' event.id %}" class="btn btn-danger">Delete</a>#}
+                            </div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No Events Found</p>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        
+    </div>
+    <script>
+                
+    </script>
+{% endblock %}

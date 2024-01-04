@@ -11,19 +11,22 @@
                 <h4>Event List</h4>
                 <ul class="event-list-items">
                     {% for event in event_list %}
-                        <li>
-                            <div class="fc-event">
-                                <h3>{{ event.title }}</h3>
-                                <p>{{ event.start_time|date:"H:i" }} to {{ event.end_time|date:"H:i" }}</p>
-                                <!-- Dodaj inne informacje o evencie, jeśli dostępne -->
-                            </div>
-                        </li>
+                        {% if event.user == request.user and event.end_date > now %}
+                            <li>
+                                <div class="fc-event">
+                                    <h3>{{ event.title }}</h3>
+                                    <p>{{ event.start_date|date:"F d, Y" }} - {{ event.end_date|date:"F d, Y" }}</p>
+                                    {% if event.description %}
+                                        <p>Description: {{ event.description }}</p>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endif %}
                     {% empty %}
                         <p>No Events Found</p>
                     {% endfor %}
                 </ul>
             </div>
-
         </div>
         <div class="col-md-9">
             <div class="calendar-section">
@@ -44,23 +47,9 @@
                         events: [
                             // Tutaj możesz dodać wydarzenia do kalendarza, jeśli są jakieś domyślne
                         ],
-                        dayRender: function(info) {
-                            var dayElement = info.el;
-            
-                            dayElement.addEventListener('mouseover', function() {
-                                dayElement.style.backgroundColor = 'grey';  // Dostosuj kolor tła na hover
-                            });
-            
-                            dayElement.addEventListener('mouseout', function() {
-                                dayElement.style.backgroundColor = '';  // Przywróć domyślne tło
-                            });
-            
-                            dayElement.addEventListener('click', function() {
-                                showModalForEvent(info.date);
-                            });
-                        },
+                        
                     });
-
+                    
                     calendar.render();
                 });
             </script>

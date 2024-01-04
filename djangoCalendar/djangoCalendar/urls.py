@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from MyCalendar.views import login_view, SignUpView, dashboard_view, logout_view
+from MyCalendar.views import login_view, SignUpView, dashboard_view, logout_view, events_view, add_event
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +27,6 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('dashboard/', login_required(dashboard_view), name='dashboard'),
     path('logout/', logout_view, name='logout'),
+    path('events/', events_view, name='events'),
+    path('add_event/', add_event, name='add_event'),
 ]
