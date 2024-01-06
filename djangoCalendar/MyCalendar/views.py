@@ -4,16 +4,17 @@ from datetime import datetime
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views import generic
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 
 from MyCalendar.forms import EventForm, CategoryForm, TaskForm
-from MyCalendar.models import Event, Calendar
+from MyCalendar.models import Event, Calendar, Project
 from .models import Task
 
 
@@ -179,3 +180,13 @@ def completed_tasks_view(request):
     return render(request, 'completed_tasks.html', {
         'completed_tasks': completed_tasks,
     })
+
+def complete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task.completed = True
+    task.save()
+    return HttpResponseRedirect(reverse('task_list'))
+
+def projects_view(request):
+    projects = Project.objects.filter(user=request.user)
+    return render(request, 'projects.html', {'projects': projects})

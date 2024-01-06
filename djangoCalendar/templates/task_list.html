@@ -30,8 +30,8 @@
                                 {% endif %}
                             </div>
                             <div class="btn-group" role="group" aria-label="Task Actions">
-                                 <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
-                                {# <a href="{% url 'delete_task' task.id %}" class="btn btn-success">Complete</a> #}
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success">Complete</a>
                             </div>
                         </div>
                     </li>
@@ -57,8 +57,8 @@
                                 {% endif %}
                             </div>
                             <div class="btn-group" role="group" aria-label="Task Actions">
-                                 <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
-                                {# <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a> #}
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success">Complete</a>
                             </div>
                         </div>
                     </li>
@@ -84,8 +84,8 @@
                                 {% endif %}
                             </div>
                             <div class="btn-group" role="group" aria-label="Task Actions">
-                                 <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
-                                {# <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a> #}
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success">Complete</a>
                             </div>
                         </div>
                     </li>
