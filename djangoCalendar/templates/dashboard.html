@@ -34,11 +34,18 @@
                     <a href="{% url 'task_list' %}" class="btn btn-light">Tasks</a>
                     <a href="{% url 'projects' %}" class="btn btn-light">Projects</a>
                     <a href="{% url 'category_list' %}" class="btn btn-light">Calendar Category</a>
-                    <div id="notification-box" class="notification-box">
+                    <div class="notification-box">
                         <div class="notification-header">
-                            <h4>Notifications</h4>
+                            <h5>Notifications</h5>
                         </div>
-                        <!-- Tutaj będą wyświetlane powiadomienia -->
+                        <div class="notification-items" id="notification-items">
+                        {% for notification in global_notifications %}
+                            <div class="notification-item">
+                                <h5 style="font-weight: bold; font-size: 18px;">{{ notification.title }}</h5>
+                                <p>{{ notification.content|safe }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +59,7 @@
 
     <script src="{% static 'calender/main.js' %}"></script>
     <script>
-    
+        
         function updateDate() {
             var datetimeInfo = document.getElementById('datetime-info');
             var now = new Date();

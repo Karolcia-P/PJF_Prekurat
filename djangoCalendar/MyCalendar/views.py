@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -21,16 +21,9 @@ from .models import Task
 # from .forms import LoginForm  # Pamiętaj o dostosowaniu ścieżki do formularza logowania
 class LoginForm(AuthenticationForm):
     pass
-def get_events_json(events):
-    event_list = []
-    for event in events:
-        event_list.append({
-            'title': event.title,
-            'start': event.start_date.isoformat(),
-            'end': event.end_date.isoformat(),
-            'color': event.calendar.color,
-        })
-    return json.dumps(event_list)
+def get_json(events):
+
+    return json.dumps(events)
 
 
 def login_view(request):
@@ -47,10 +40,6 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
-# class CustomLoginView(LoginView):
-#     template_name = 'registration/login.html'
-#     success_url = reverse_lazy('dashboard')
-
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -61,10 +50,31 @@ class SignUpView(generic.CreateView):
 @login_required(login_url='login')
 def dashboard_view(request):
     template_name = 'calendar.html'
-    now = timezone.now()
     events = Event.objects.filter(user=request.user)
-    # calendar_colors = {calendar.id: calendar.color for calendar in Calendar.objects.filter(user=request.user)}
-    context = {'object_list': events, 'events_json': get_events_json(events)}
+    projects = Project.objects.filter(user=request.user, completed=False)
+
+    project_events = [
+        {
+            'title': project.title,
+            'start': project.start_date.isoformat(),
+            'end': project.end_date.isoformat(),
+            'color': '#00FF00',  # Kolor zielony
+        }
+        for project in projects
+    ]
+
+    event_list = []
+    for event in events:
+        event_list.append({
+            'title': event.title,
+            'start': event.start_date.isoformat(),
+            'end': event.end_date.isoformat(),
+            'color': event.calendar.color,
+        })
+
+    # Połącz wydarzenia i projekty w jedną listę
+    all_events = event_list + project_events
+    context = {'object_list': all_events, 'events_json': get_json(all_events)}
     return render(request, template_name, context)
 
 def logout_view(request):

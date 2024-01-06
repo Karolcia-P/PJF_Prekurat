@@ -9,7 +9,7 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 
 #datetime-info{
@@ -98,32 +98,35 @@ body{
 }
 
 .notification-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    max-width: 300px;
-    z-index: 9999;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    height: 500px;
+    margin-bottom: 5%;
+    margin-top: 30px;
+}
+.notification-header {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-.notification {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+.notification-item p {
+    margin: 0;
+}
+
+.notification-items {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.notification-item {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid transparent;
-    border-radius: 4px;
 }
 
-.notification-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-}
-
-
-.notification-info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
+.notification-item p {
+    margin: 0;
 }
