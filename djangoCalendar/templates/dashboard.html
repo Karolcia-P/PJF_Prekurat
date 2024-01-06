@@ -34,33 +34,34 @@
                     <a href="{% url 'task_list' %}" class="btn btn-light">Tasks</a>
                     <a href="{% url 'projects' %}" class="btn btn-light">Projects</a>
                     <a href="{% url 'category_list' %}" class="btn btn-light">Calendar Category</a>
+                    <div id="notification-box" class="notification-box">
+                        <div class="notification-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        <!-- Tutaj będą wyświetlane powiadomienia -->
+                    </div>
                 </div>
             </div>
             <div class="col-md-10">
-                {% block dynamic_content %}{% endblock %}
+                {% block dynamic_content %}
+                    
+                {% endblock %}
             </div>
         </div>
     </div>
 
     <script src="{% static 'calender/main.js' %}"></script>
     <script>
-        function enableButtons() {
-            var buttons = document.querySelectorAll('.vertical-menu button');
-            buttons.forEach(function(button) {
-                button.removeAttribute('disabled');
-            });
-        }
+    
         function updateDate() {
             var datetimeInfo = document.getElementById('datetime-info');
             var now = new Date();
             var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            datetimeInfo.textContent = now.toLocaleDateString('en-US', options);
+            datetimeInfo.textContent = now.toLocaleDateString('en-US', options)+ ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Update datetime initially
         updateDate();
         
-        // Update date every day (86400000 milliseconds = 24 hours)
-        //setInterval(updateDate, 86400000);
+        setInterval(updateDate, 60000);
     </script>
 {% endblock %}

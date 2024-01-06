@@ -44,5 +44,4 @@ class Project(models.Model):
     description = models.TextField(blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
-    reminder_date = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default=False)

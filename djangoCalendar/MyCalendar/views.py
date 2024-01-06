@@ -13,7 +13,7 @@ from django.views import generic
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 
-from MyCalendar.forms import EventForm, CategoryForm, TaskForm
+from MyCalendar.forms import EventForm, CategoryForm, TaskForm, ProjectForm
 from MyCalendar.models import Event, Calendar, Project
 from .models import Task
 
@@ -73,7 +73,7 @@ def logout_view(request):
 
 def add_event(request):
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventForm(request.user, request.POST)  # Pass the current user to the form
         if form.is_valid():
             new_event = form.save(commit=False)
             new_event.user = request.user
@@ -83,7 +83,7 @@ def add_event(request):
         else:
             messages.error(request, 'Invalid form submission. Please check the form for errors.')
     else:
-        form = EventForm()
+        form = EventForm(user=request.user)  # Pass the current user to the form
 
     return render(request, 'add_event.html', {'form': form})
 
@@ -104,13 +104,13 @@ class EditEventView(UpdateView):
     template_name = 'edit_event.html'
     success_url = reverse_lazy('events')
 
-    def get_queryset(self):
-        return Event.objects.filter(user=self.request.user)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the current user to the form
+        return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.start_date = timezone.make_aware(form.cleaned_data['start_date'])
-        form.instance.end_date = timezone.make_aware(form.cleaned_data['end_date'])
         return super().form_valid(form)
 
 class DeleteEventView(DeleteView):
@@ -188,5 +188,42 @@ def complete_task(request, task_id):
     return HttpResponseRedirect(reverse('task_list'))
 
 def projects_view(request):
-    projects = Project.objects.filter(user=request.user)
+    projects = Project.objects.filter(user=request.user, completed=False)
+
     return render(request, 'projects.html', {'projects': projects})
+
+def completed_projects_view(request):
+    completed_projects = Project.objects.filter(completed=True)
+    return render(request, 'completed_projects.html', {'completed_projects': completed_projects})
+
+def add_project_view(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = request.user
+            project.save()
+            return redirect('projects')
+    else:
+        form = ProjectForm()
+
+    return render(request, 'add_project.html', {'form': form})
+
+def edit_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('projects')
+    else:
+        form = ProjectForm(instance=project)
+
+    return render(request, 'edit_project.html', {'form': form})
+
+def complete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    project.completed = True
+    project.save()
+    return HttpResponseRedirect(reverse('projects'))

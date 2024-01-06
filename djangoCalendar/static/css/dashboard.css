@@ -9,7 +9,7 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 #datetime-info{
@@ -95,4 +95,35 @@ body{
 .event-current-ended button{
     padding: 10px 25px;
     margin-top: 5px;
+}
+
+.notification-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 300px;
+    z-index: 9999;
+}
+
+.notification {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.notification-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+
+.notification-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
 }
