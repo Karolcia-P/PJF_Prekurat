@@ -12,7 +12,9 @@
                     <button id="currentEventsBtn" class="btn btn-light">Current Events</button>
                     <button id="endedEventsBtn" class="btn btn-light">Ended Events</button>
                 </div>
-                
+                <div id="noEventsMessage" style="display: none;">
+                    <p>No events available.</p>
+                </div>
 
             </div>
         </div>
@@ -57,6 +59,8 @@
                     // Funkcja do filtrowania wydarzeń
                     function filterEvents(ended) {
                         var eventList = document.getElementById('eventList');
+                        var noEventsMessage = document.getElementById('noEventsMessage');
+
                         if (!eventList) {
                             // Utwórz listę wydarzeń, jeśli nie istnieje
                             eventList = document.createElement('ul');
@@ -84,14 +88,20 @@
 
                         var eventItems = eventList.getElementsByClassName('event-item');
 
-                        for (var i = 0; i < eventItems.length; i++) {
-                            var endTimestamp = new Date({{ events_json|safe }}[i].end).getTime();
-                            var nowTimestamp = new Date().getTime();
+                        
+                        if (eventItems.length === 0) {
+                            noEventsMessage.style.display = 'block';
+                        } else {
+                            noEventsMessage.style.display = 'none';
+                            for (var i = 0; i < eventItems.length; i++) {
+                                var endTimestamp = new Date({{ events_json|safe }}[i].end).getTime();
+                                var nowTimestamp = new Date().getTime();
 
-                            if ((ended && endTimestamp <= nowTimestamp) || (!ended && endTimestamp > nowTimestamp)) {
-                                eventItems[i].style.display = 'block';
-                            } else {
-                                eventItems[i].style.display = 'none';
+                                if ((ended && endTimestamp <= nowTimestamp) || (!ended && endTimestamp > nowTimestamp)) {
+                                    eventItems[i].style.display = 'block';
+                                } else {
+                                    eventItems[i].style.display = 'none';
+                                }
                             }
                         }
                     }

@@ -130,7 +130,7 @@ def add_category(request):
             new_category = form.save(commit=False)
             new_category.user = request.user
             new_category.save()
-            return redirect('category')
+            return redirect('category_list')
     else:
         form = CategoryForm()
 
