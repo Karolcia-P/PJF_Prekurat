@@ -44,6 +44,8 @@
                                 <h5 style="font-weight: bold; font-size: 18px;">{{ notification.title }}</h5>
                                 <p>{{ notification.content|safe }}</p>
                             </div>
+                        {% empty %}
+                            <p>No Notifications right now.</p>
                         {% endfor %}
                     </div>
                     </div>
