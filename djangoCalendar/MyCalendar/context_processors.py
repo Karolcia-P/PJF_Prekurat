@@ -1,6 +1,7 @@
 from .models import Project, Event
 from django.utils import timezone
 from datetime import timedelta, datetime
+import time
 
 
 def global_notifications(request):
@@ -8,9 +9,10 @@ def global_notifications(request):
 
     if request.user.is_authenticated:
         projects = Project.objects.filter(user=request.user, completed=False)
-        current_date = timezone.now().date()
+        current_datetime = timezone.now()
+
         for project in projects:
-            if project.end_date and current_date <= project.end_date <= current_date + timedelta(days=1):
+            if project.end_date and current_datetime <= project.end_date <= current_datetime + timedelta(days=1):
                 notification = {
                     'title': 'Project is ending soon.',
                     'content': f'Title: {project.title} <br> End Date: {project.end_date.strftime("%B %d, %Y")}',
@@ -23,13 +25,16 @@ def global_notifications(request):
             # Utwórz obiekt timedelta na podstawie atrybutów notification
             notification_timedelta = timedelta(hours=event.notification.hour, minutes=event.notification.minute)
 
-            # Oblicz notification_time odejmując notification_timedelta od start_date
-            notification_time = event.start_date - notification_timedelta
-
-            if timezone.now() >= notification_time and event.start_date >= timezone.now():
+            # Oblicz notification_time odejmując notification_timedelta od start_datetime
+            start_datetime = datetime.combine(event.start_date, event.start_time)
+            notification_time = start_datetime - notification_timedelta
+            system_localtime = time.localtime()
+            system_datetime = datetime.fromtimestamp(time.mktime(system_localtime))
+            current_datetime_naive = system_datetime
+            if notification_time <= current_datetime_naive <= start_datetime:
                 notification = {
                     'title': 'Event Reminder.',
-                    'content': f'Title: {event.title} <br> Start Date: {event.start_date.strftime("%B %d, %Y %H:%M")}',
+                    'content': f'Title: {event.title} <br> Start: {event.start_date.strftime("%B %d, %Y")}, {event.start_time.strftime("%H:%M")}',
                 }
 
                 if notification not in notifications:

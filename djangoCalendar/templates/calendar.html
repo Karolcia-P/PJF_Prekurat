@@ -55,14 +55,14 @@
                     document.getElementById('endedEventsBtn').addEventListener('click', function() {
                         filterEvents(true);  // true oznacza zakończone wydarzenia
                     });
-                    
+
 
     // Funkcja do filtrowania i sortowania wydarzeń
     function filterEvents(ended) {
         var eventList = document.getElementById('eventList');
         var noEventsMessage = document.getElementById('noEventsMessage');
         var eventsArray = {{ events_json|safe }};
-        
+
         function compareEvents(a, b) {
                         var timestampA = new Date(a.end).getTime();
                         var timestampB = new Date(b.end).getTime();
@@ -72,7 +72,7 @@
                             return timestampA - timestampB;  // Sortuj rosnąco dla "Current Events"
                         }
                     }
-        
+
         var sortedEventsArray = eventsArray.slice().sort(compareEvents);
 
         if (!eventList) {
@@ -90,7 +90,7 @@
 
         // Dodaj wydarzenia do listy
         for (var i = 0; i < sortedEventsArray.length; i++) {
-            
+
             var eventItem = document.createElement('li');
             eventItem.className = 'event-item';
             eventItem.id = 'event-item-' + i;
@@ -127,7 +127,7 @@
             }
         }
     }
-                    
+
                 });
             </script>
         </div>

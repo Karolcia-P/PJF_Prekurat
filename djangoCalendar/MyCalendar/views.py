@@ -67,8 +67,8 @@ def dashboard_view(request):
     for event in events:
         event_list.append({
             'title': event.title,
-            'start': event.start_date.isoformat(),
-            'end': event.end_date.isoformat(),
+            'start': event.start_date.isoformat() + ' ' + event.start_time.strftime('%H:%M'),
+            'end': event.end_date.isoformat() + ' ' + event.end_time.strftime('%H:%M'),
             'color': event.calendar.color,
         })
 
@@ -102,7 +102,7 @@ def events_view(request):
     template_name = 'events.html'
     now = timezone.now()
 
-    events = Event.objects.filter(user=request.user, end_date__gt=now)
+    events = Event.objects.filter(user=request.user)
     context = {'object_list': events}
 
     return render(request, template_name, context)
