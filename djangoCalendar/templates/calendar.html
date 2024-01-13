@@ -33,7 +33,7 @@
                             right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
                         initialView: 'dayGridMonth',
-                        eventDisplay: 'block', 
+                        eventDisplay: 'block',
                         events: {{ events_json|safe }},
                         eventContent: function(arg) {
                             return {
@@ -43,11 +43,11 @@
                             };
                         },
                     });
-                    
+
                     calendar.render();
-                    
+
                     filterEvents(false);
-                    
+
                     document.getElementById('currentEventsBtn').addEventListener('click', function() {
                         filterEvents(false);  // false oznacza bieżące wydarzenia
                     });
@@ -55,56 +55,78 @@
                     document.getElementById('endedEventsBtn').addEventListener('click', function() {
                         filterEvents(true);  // true oznacza zakończone wydarzenia
                     });
+                    
 
-                    // Funkcja do filtrowania wydarzeń
-                    function filterEvents(ended) {
-                        var eventList = document.getElementById('eventList');
-                        var noEventsMessage = document.getElementById('noEventsMessage');
-
-                        if (!eventList) {
-                            // Utwórz listę wydarzeń, jeśli nie istnieje
-                            eventList = document.createElement('ul');
-                            eventList.className = 'event-list-items';
-                            eventList.id = 'eventList';
-
-                            // Dodaj listę do kontenera
-                            document.querySelector('.event-list').appendChild(eventList);
-
-                            // Dodaj wydarzenia do listy
-                            for (var i = 0; i < {{ events_json|safe }}.length; i++) {
-                                var eventItem = document.createElement('li');
-                                eventItem.className = 'event-item';
-                                eventItem.id = 'event-item-' + i;
-                                
-                                var eventContent = document.createElement('div');
-                                eventContent.className = 'fc-event';
-
-                                eventContent.innerHTML = '<h5>' + {{ events_json|safe }}[i].title + '</h5>' + '<p>' + new Date({{ events_json|safe }}[i].start).toLocaleString() + ' - ' + new Date({{ events_json|safe }}[i].end).toLocaleString() + '</p>';
-
-                                eventItem.appendChild(eventContent);
-                                eventList.appendChild(eventItem);
-                            }
-                        }
-
-                        var eventItems = eventList.getElementsByClassName('event-item');
-
-                        
-                        if (eventItems.length === 0) {
-                            noEventsMessage.style.display = 'block';
+    // Funkcja do filtrowania i sortowania wydarzeń
+    function filterEvents(ended) {
+        var eventList = document.getElementById('eventList');
+        var noEventsMessage = document.getElementById('noEventsMessage');
+        var eventsArray = {{ events_json|safe }};
+        
+        function compareEvents(a, b) {
+                        var timestampA = new Date(a.end).getTime();
+                        var timestampB = new Date(b.end).getTime();
+                        if (ended) {
+                        return timestampB - timestampA;  // Sortuj malejąco dla "Ended Events"
                         } else {
-                            noEventsMessage.style.display = 'none';
-                            for (var i = 0; i < eventItems.length; i++) {
-                                var endTimestamp = new Date({{ events_json|safe }}[i].end).getTime();
-                                var nowTimestamp = new Date().getTime();
-
-                                if ((ended && endTimestamp <= nowTimestamp) || (!ended && endTimestamp > nowTimestamp)) {
-                                    eventItems[i].style.display = 'block';
-                                } else {
-                                    eventItems[i].style.display = 'none';
-                                }
-                            }
+                            return timestampA - timestampB;  // Sortuj rosnąco dla "Current Events"
                         }
                     }
+        
+        var sortedEventsArray = eventsArray.slice().sort(compareEvents);
+
+        if (!eventList) {
+            // Utwórz listę wydarzeń, jeśli nie istnieje
+            eventList = document.createElement('ul');
+            eventList.className = 'event-list-items';
+            eventList.id = 'eventList';
+
+            // Dodaj listę do kontenera
+            document.querySelector('.event-list').appendChild(eventList);
+        }
+
+        // Wyczyść listę przed dodaniem nowych elementów
+        eventList.innerHTML = '';
+
+        // Dodaj wydarzenia do listy
+        for (var i = 0; i < sortedEventsArray.length; i++) {
+            var eventItem = document.createElement('li');
+            eventItem.className = 'event-item';
+            eventItem.id = 'event-item-' + i;
+
+            var eventContent = document.createElement('div');
+            eventContent.className = 'fc-event';
+
+            eventContent.innerHTML = '<h5>' + sortedEventsArray[i].title + '</h5>' + '<p>' + new Date(sortedEventsArray[i].start).toLocaleString() + ' - ' + new Date(sortedEventsArray[i].end).toLocaleString() + '</p>';
+
+            eventItem.appendChild(eventContent);
+            eventList.appendChild(eventItem);
+        }
+
+        if (sortedEventsArray.length === 0) {
+            noEventsMessage.style.display = 'block';
+        } else {
+            noEventsMessage.style.display = 'none';
+
+            // Iteruj przez posortowane elementy listy i ustaw ich widoczność
+            var sortedEventItems = Array.from(eventList.getElementsByClassName('event-item')).sort(compareEvents);
+
+            for (var i = 0; i < sortedEventItems.length; i++) {
+                var endTimestamp = new Date(sortedEventsArray[i].end).getTime();
+                var nowTimestamp = new Date().getTime();
+
+                // Sprawdź, czy wydarzenie jest zakończone
+                var isEventEnded = endTimestamp <= nowTimestamp;
+
+                if ((ended && isEventEnded) || (!ended && !isEventEnded)) {
+                    sortedEventItems[i].style.display = 'block';
+                } else {
+                    sortedEventItems[i].style.display = 'none';
+                }
+            }
+        }
+    }
+                    
                 });
             </script>
         </div>

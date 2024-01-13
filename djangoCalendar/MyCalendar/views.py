@@ -51,7 +51,7 @@ class SignUpView(generic.CreateView):
 def dashboard_view(request):
     template_name = 'calendar.html'
     events = Event.objects.filter(user=request.user)
-    projects = Project.objects.filter(user=request.user, completed=False)
+    projects = Project.objects.filter(user=request.user)
 
     project_events = [
         {
@@ -154,9 +154,12 @@ class EditCategoryView(UpdateView):
     success_url = reverse_lazy('category_list')
 
 def task_list_view(request):
-    high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY, completed=False).order_by('start_date')
-    medium_priority_tasks = Task.objects.filter(priority=Task.MEDIUM_PRIORITY, completed=False).order_by('start_date')
-    low_priority_tasks = Task.objects.filter(priority=Task.LOW_PRIORITY, completed=False).order_by('start_date')
+    high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY, completed=False, user=request.user).order_by(
+        'start_date')
+    medium_priority_tasks = Task.objects.filter(priority=Task.MEDIUM_PRIORITY, completed=False,
+                                                user=request.user).order_by('start_date')
+    low_priority_tasks = Task.objects.filter(priority=Task.LOW_PRIORITY, completed=False, user=request.user).order_by(
+        'start_date')
 
     return render(request, 'task_list.html', {
         'high_priority_tasks': high_priority_tasks,
@@ -185,7 +188,7 @@ class EditTaskView(UpdateView):
     success_url = reverse_lazy('task_list')
 
 def completed_tasks_view(request):
-    completed_tasks = Task.objects.filter(completed=True).order_by('-start_date')
+    completed_tasks = Task.objects.filter(completed=True, user=request.user).order_by('-start_date')
 
     return render(request, 'completed_tasks.html', {
         'completed_tasks': completed_tasks,
@@ -203,7 +206,7 @@ def projects_view(request):
     return render(request, 'projects.html', {'projects': projects})
 
 def completed_projects_view(request):
-    completed_projects = Project.objects.filter(completed=True)
+    completed_projects = Project.objects.filter(completed=True, user=request.user)
     return render(request, 'completed_projects.html', {'completed_projects': completed_projects})
 
 def add_project_view(request):
