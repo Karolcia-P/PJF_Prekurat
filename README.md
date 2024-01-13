@@ -6,14 +6,20 @@ Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarzą
 ## Funkcje:
 
 ### Zarządzanie Kalendarzami:
-- Użytkownik może tworzyć i zarządzać wieloma kalendarzami, przypisując je do konkretnych obszarów życia lub kategorii wydarzeń.
+- Użytkownik może tworzyć i zarządzać kalendarzem tworząc wydarzenia dodając je do odpowiedniej kategorii i ustawiając ich czas oraz ile wcześniej ma się pojawić powiadomienie 
 
-### Dodawanie Wydarzeń i Projektów:
-- Możliwość dodawania nowych wydarzeń oraz projektów, określając ich datę, godzinę i opis.
+### Dodawanie Projektów:
+- Możliwość dodawania nowych projektów, określając ich datę początkową, końcową i opis. Powiadomienie przychodzi dzień przed końcem terminu
 
 ### Powiadomienia:
-- Implementacja systemu powiadomień, umożliwiającego użytkownikowi ustawienie przypomnień o zbliżających się wydarzeniach, zadaniach czy projektach.
+- Powiadomienia pojawiają się w odpowiednim miejscu i są widoczne dla użytkownika aż do momentu upłynięcia odpowiedniej daty. 
 
 ### Listy Zadań:
 - Każdy użytkownik ma dostęp do jednej listy zadań, gdzie może dodawać, edytować i usuwać zadania, określając ich tytuł, treść i datę wykonania.
 - Funkcja przypisywania priorytetów do zadań w celu lepszego zrozumienia ich ważności.
+
+## Technologie:
+- Backend: Django (Python)
+- Frontend: HTML, CSS i Bootstrap, JavaScript
+- Baza danych: SQLite  
+
