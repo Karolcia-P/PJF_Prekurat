@@ -1,0 +1,10 @@
+{% extends 'dashboard.html' %}
+{% block dynamic_content %}
+  <h1>Delete Task</h1>
+  <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete that Task "{{ Task.title }}"?</p>
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'events' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

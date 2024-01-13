@@ -21,7 +21,7 @@ from django.urls import path
 from MyCalendar.views import login_view, SignUpView, dashboard_view, logout_view, events_view, add_event, category_list, \
     add_category, EditCategoryView, EditEventView, DeleteEventView, task_list_view, add_task, EditTaskView, \
     completed_tasks_view, projects_view, complete_task, add_project_view, completed_projects_view, edit_project, \
-    complete_project
+    complete_project, DeleteProjectView, DeleteTaskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,6 +52,7 @@ urlpatterns = [
     path('edit_task/<int:pk>/', EditTaskView.as_view(), name='edit_task'),
     path('completed-tasks/', completed_tasks_view, name='completed_tasks'),
     path('complete_task/<int:task_id>/', complete_task, name='complete_task'),
+    path('task/<int:pk>/delete/', DeleteTaskView.as_view(), name='delete_task'),
 
     # projekty
     path('projects/', projects_view, name='projects'),
@@ -59,4 +60,5 @@ urlpatterns = [
     path('completed_projects/', completed_projects_view, name='completed_projects'),
     path('edit_project/<int:project_id>/', edit_project, name='edit_project'),
     path('complete_project/<int:project_id>/', complete_project, name='complete_project'),
+    path('project/<int:pk>/delete/', DeleteProjectView.as_view(), name='delete_project'),
 ]

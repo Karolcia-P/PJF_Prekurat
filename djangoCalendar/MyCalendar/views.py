@@ -200,6 +200,14 @@ def complete_task(request, task_id):
     task.save()
     return HttpResponseRedirect(reverse('task_list'))
 
+class DeleteTaskView(DeleteView):
+    model = Task
+    template_name = 'delete_task.html'  # Stwórz ten szablon
+    success_url = reverse_lazy('task_list')
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+
 def projects_view(request):
     projects = Project.objects.filter(user=request.user, completed=False)
 
@@ -240,3 +248,11 @@ def complete_project(request, project_id):
     project.completed = True
     project.save()
     return HttpResponseRedirect(reverse('projects'))
+
+class DeleteProjectView(DeleteView):
+    model = Project
+    template_name = 'delete_project.html'
+    success_url = reverse_lazy('projects')
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)

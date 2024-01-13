@@ -23,9 +23,10 @@
                                     <p>Description: {{ task.description }}</p>
                                 {% endif %}
                             </div>
-{#                            <div class="btn-group" role="group" aria-label="Category Actions">#}
-{#                                <a href="{% url 'edit_category' category.id %}" class="btn btn-primary">Edit</a>#}
-{#                            </div>#}
+
+                            <div class="btn-group  " role="group" aria-label="Task Actions">
+                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+                            </div>
                         </div>
                     </li>
                 {% empty %}
