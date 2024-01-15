@@ -1,12 +1,9 @@
 import json
-from datetime import datetime, timedelta
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views import generic
@@ -18,11 +15,11 @@ from MyCalendar.models import Event, Calendar, Project
 from .models import Task
 
 
-# from .forms import LoginForm  # Pamiętaj o dostosowaniu ścieżki do formularza logowania
 class LoginForm(AuthenticationForm):
     pass
-def get_json(events):
 
+
+def get_json(events):
     return json.dumps(events)
 
 
@@ -72,14 +69,15 @@ def dashboard_view(request):
             'color': event.calendar.color,
         })
 
-    # Połącz wydarzenia i projekty w jedną listę
     all_events = event_list + project_events
     context = {'object_list': all_events, 'events_json': get_json(all_events)}
     return render(request, template_name, context)
 
+
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 def add_event(request):
     if request.method == 'POST':
@@ -93,7 +91,7 @@ def add_event(request):
         else:
             messages.error(request, 'Invalid form submission. Please check the form for errors.')
     else:
-        form = EventForm(user=request.user)  # Pass the current user to the form
+        form = EventForm(user=request.user)
 
     return render(request, 'add_event.html', {'form': form})
 
@@ -116,23 +114,27 @@ class EditEventView(UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # Pass the current user to the form
+        kwargs['user'] = self.request.user
         return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class DeleteEventView(DeleteView):
     model = Event
     success_url = reverse_lazy('events')
     template_name = 'event_confirm_delete.html'
+
     def get_queryset(self):
         return Event.objects.filter(user=self.request.user)
+
 
 def category_list(request):
     categories = Calendar.objects.filter(user=request.user)
     return render(request, 'category_list.html', {'categories': categories})
+
 
 def add_category(request):
     if request.method == 'POST':
@@ -147,11 +149,13 @@ def add_category(request):
 
     return render(request, 'add_category.html', {'category_form': form})
 
+
 class EditCategoryView(UpdateView):
     model = Calendar
     form_class = CategoryForm
     template_name = 'edit_category.html'
     success_url = reverse_lazy('category_list')
+
 
 def task_list_view(request):
     high_priority_tasks = Task.objects.filter(priority=Task.HIGH_PRIORITY, completed=False, user=request.user).order_by(
@@ -173,19 +177,21 @@ def add_task(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.user = request.user  # Assign the current user to the task
+            task.user = request.user
             task.save()
-            return redirect('task_list')  # Adjust this to your actual redirect URL
+            return redirect('task_list')
     else:
         form = TaskForm()
 
     return render(request, 'add_task.html', {'form': form})
+
 
 class EditTaskView(UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'edit_task.html'
     success_url = reverse_lazy('task_list')
+
 
 def completed_tasks_view(request):
     completed_tasks = Task.objects.filter(completed=True, user=request.user).order_by('-start_date')
@@ -194,15 +200,17 @@ def completed_tasks_view(request):
         'completed_tasks': completed_tasks,
     })
 
+
 def complete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.completed = True
     task.save()
     return HttpResponseRedirect(reverse('task_list'))
 
+
 class DeleteTaskView(DeleteView):
     model = Task
-    template_name = 'delete_task.html'  # Stwórz ten szablon
+    template_name = 'delete_task.html'
     success_url = reverse_lazy('task_list')
 
     def get_queryset(self):

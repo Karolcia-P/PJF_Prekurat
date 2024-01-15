@@ -11,6 +11,7 @@ class Calendar(models.Model):
     def __str__(self):
         return self.name
 
+
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -22,8 +23,7 @@ class Event(models.Model):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     notification = models.TimeField(default=timezone.timedelta(hours=1))
 
-#       start_date = models.DateTimeField(default=timezone.now)
-#     end_date = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=1))
+
 class Task(models.Model):
     HIGH_PRIORITY = 1
     MEDIUM_PRIORITY = 2
@@ -40,6 +40,7 @@ class Task(models.Model):
     start_date = models.DateField()
     priority = models.IntegerField(choices=PRIORITY_CHOICES)
     completed = models.BooleanField(default=False)
+
 
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
