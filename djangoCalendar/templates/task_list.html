@@ -29,10 +29,11 @@
                                     <p>Description: {{ task.description }}</p>
                                 {% endif %}
                             </div>
-                            <div class="btn-group" role="group" aria-label="Task Actions">
-                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
-                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success">Complete</a>
-                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+                            
+                            <div class="btn-group d-flex flex-column" role="group" aria-label="Task Actions">
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary btn-block mb-1">Edit</a>
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success btn-block mb-1">Complete</a>
+                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger btn-block">Delete</a>
                             </div>
                         </div>
                     </li>
@@ -57,10 +58,11 @@
                                     <p>Description: {{ task.description }}</p>
                                 {% endif %}
                             </div>
-                            <div class="btn-group" role="group" aria-label="Task Actions">
-                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary">Edit</a> 
-                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success">Complete</a>
-                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">Delete</a>
+                            
+                            <div class="btn-group d-flex flex-column" role="group" aria-label="Task Actions">
+                                <a href="{% url 'edit_task' task.id %}" class="btn btn-primary btn-block mb-1">Edit</a>
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success btn-block mb-1">Complete</a>
+                                <a href="{% url 'delete_task' task.id %}" class="btn btn-danger btn-block">Delete</a>
                             </div>
                         </div>
                     </li>

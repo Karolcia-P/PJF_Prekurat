@@ -6,13 +6,16 @@ import time
 
 def global_notifications(request):
     notifications = []
-
+    system_localtime = time.localtime()
+    system_datetime = datetime.fromtimestamp(time.mktime(system_localtime))
+    current_datetime_naive = system_datetime
     if request.user.is_authenticated:
         projects = Project.objects.filter(user=request.user, completed=False)
-        current_datetime = timezone.now()
+
 
         for project in projects:
-            if project.end_date and current_datetime <= project.end_date <= current_datetime + timedelta(days=1):
+            project_end_datetime = datetime.combine(project.end_date, datetime.min.time())
+            if project.end_date and current_datetime_naive <= project_end_datetime <= current_datetime_naive + timedelta(days=1):
                 notification = {
                     'title': 'Project is ending soon.',
                     'content': f'Title: {project.title} <br> End Date: {project.end_date.strftime("%B %d, %Y")}',
@@ -28,9 +31,7 @@ def global_notifications(request):
             # Oblicz notification_time odejmując notification_timedelta od start_datetime
             start_datetime = datetime.combine(event.start_date, event.start_time)
             notification_time = start_datetime - notification_timedelta
-            system_localtime = time.localtime()
-            system_datetime = datetime.fromtimestamp(time.mktime(system_localtime))
-            current_datetime_naive = system_datetime
+
             if notification_time <= current_datetime_naive <= start_datetime:
                 notification = {
                     'title': 'Event Reminder.',

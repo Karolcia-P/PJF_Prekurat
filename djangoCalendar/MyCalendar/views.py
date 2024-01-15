@@ -56,8 +56,8 @@ def dashboard_view(request):
     project_events = [
         {
             'title': project.title,
-            'start': project.start_date.isoformat(),
-            'end': project.end_date.isoformat(),
+            'start': project.start_date.isoformat() + ' ' + '00:00',
+            'end': project.end_date.isoformat() + ' ' + '00:00',
             'color': '#00FF00',  # Kolor zielony
         }
         for project in projects
