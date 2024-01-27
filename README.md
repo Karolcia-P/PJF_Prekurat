@@ -17,3 +17,8 @@ Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarzą
 ### Listy Zadań:
 - Każdy użytkownik ma dostęp do jednej listy zadań, gdzie może dodawać, edytować i usuwać zadania, określając ich tytuł, treść i datę wykonania.
 - Funkcja przypisywania priorytetów do zadań w celu lepszego zrozumienia ich ważności.
+
+###Technologie:
+-	Backend: Django (Python)
+-	Frontend: HTML, CSS i Bootstrap, JavaScript 
+-	Baza danych: SQLite 
