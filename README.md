@@ -1,7 +1,7 @@
 # Aplikacja Kalendarza
 
 ## Opis:
-Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarządzanie czasem poprzez dodawanie, edycję oraz śledzenie wydarzeń, zadań i projektów. Projekt opiera się na platformie Django w języku Python.
+Projekt realizowany w ramach zajęć na studiach. Aplikacja Kalendarza to narzędzie umożliwiające efektywne planowanie i zarządzanie czasem poprzez dodawanie, edycję oraz śledzenie wydarzeń, zadań i projektów. Projekt opiera się na platformie Django w języku Python.
 
 ## Funkcje:
 
